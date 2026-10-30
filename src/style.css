@@ -1,0 +1,645 @@
+/* ==========================================================================
+   LUXURY WEDDING PRELOADER — HANDWRITING CALLIGRAPHY ANIMATION
+   ========================================================================== */
+@font-face {
+  font-family: 'Brittany Signature';
+  src: url('/fonts/BrittanySignature.woff') format('woff'),
+    url('https://fonts.cdnfonts.com/s/39082/BrittanySignature-LjyZ.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+body.preloader-active {
+  overflow: hidden !important;
+  height: 100vh !important;
+  touch-action: none;
+}
+
+/* Smooth occlusion: pre-renders layout cleanly behind preloader */
+body.preloader-active #app>*:not(#wedding-preloader) {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+#app>*:not(#wedding-preloader) {
+  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.4, 1);
+  opacity: 1;
+}
+
+.wedding-preloader {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #0E0A07;
+  cursor: pointer;
+  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.4, 1);
+  will-change: opacity;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.wedding-preloader.preloader-fade-out {
+  opacity: 0;
+  pointer-events: none !important;
+}
+
+.wedding-preloader.preloader-fade-out * {
+  animation-play-state: paused !important;
+}
+
+/* Background Media & Ken Burns */
+.preloader-bg-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.preloader-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  animation: preloaderKenBurns 12s ease-out forwards;
+  filter: brightness(0.85) contrast(1.05);
+}
+
+@keyframes preloaderKenBurns {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.preloader-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+      rgba(14, 10, 7, 0.42) 0%,
+      rgba(14, 10, 7, 0.68) 60%,
+      rgba(8, 5, 3, 0.88) 100%);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+}
+
+/* Stardust Gold Particles */
+.preloader-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.preloader-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFF2A8 10%, rgba(218, 165, 32, 0.6) 60%, transparent 100%);
+  opacity: 0;
+  animation: floatStardust 4s ease-in-out infinite;
+}
+
+.preloader-particle.p1 {
+  width: 4px;
+  height: 4px;
+  top: 20%;
+  left: 18%;
+  animation-delay: 0.2s;
+}
+
+.preloader-particle.p2 {
+  width: 6px;
+  height: 6px;
+  top: 38%;
+  left: 82%;
+  animation-delay: 1.1s;
+}
+
+.preloader-particle.p3 {
+  width: 5px;
+  height: 5px;
+  top: 62%;
+  left: 22%;
+  animation-delay: 0.7s;
+}
+
+.preloader-particle.p4 {
+  width: 4px;
+  height: 4px;
+  top: 76%;
+  left: 74%;
+  animation-delay: 1.8s;
+}
+
+.preloader-particle.p5 {
+  width: 5px;
+  height: 5px;
+  top: 28%;
+  left: 70%;
+  animation-delay: 2.3s;
+}
+
+.preloader-particle.p6 {
+  width: 3px;
+  height: 3px;
+  top: 50%;
+  left: 10%;
+  animation-delay: 1.5s;
+}
+
+@keyframes floatStardust {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+
+  50% {
+    opacity: 0.85;
+    transform: translateY(-22px) scale(1.2);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-44px) scale(0.6);
+  }
+}
+
+/* Center Content */
+.preloader-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  max-width: 620px;
+  width: 100%;
+}
+
+.wedding-preloader:not(.preloader-animating) .preloader-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wedding-preloader.preloader-animating .preloader-content {
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+.preloader-top-badge {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+}
+
+.preloader-animating .preloader-top-badge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.preloader-tagline {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 0.76rem;
+  letter-spacing: 0.38em;
+  color: #DFCA95;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(223, 202, 149, 0.6);
+}
+
+/* Script Container */
+.preloader-script-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0.5rem 1rem 0.75rem;
+  width: 100%;
+}
+
+.script-line {
+  position: relative;
+  display: inline-block;
+  line-height: 1.15;
+  padding: 0.15em 0.8em;
+}
+
+.script-text {
+  display: inline-block;
+  font-family: "Brittany Signature", "Cormorant Garamond", cursive;
+  color: #FFFDF8;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(235, 205, 130, 0.75), 0 0 38px rgba(212, 175, 55, 0.45);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  padding: 0.15em 0.4em;
+  margin: -0.15em -0.4em;
+}
+
+.script-name-1 .script-text,
+.script-name-2 .script-text {
+  font-size: clamp(3.2rem, 13vw, 5.6rem);
+  clip-path: inset(-60px 105% -60px -60px);
+  opacity: 0;
+}
+
+.script-ampersand {
+  margin: -0.25em 0;
+  line-height: 0.75;
+}
+
+.script-ampersand .script-text {
+  font-size: clamp(2.2rem, 8vw, 3.6rem);
+  color: #F8E6B8;
+  opacity: 0;
+  transform: scale(0.6) rotate(-8deg);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 22px rgba(235, 205, 130, 0.95);
+}
+
+/* Handwriting Animations */
+.preloader-animating .script-name-1 .script-text {
+  animation: writeName 1.7s cubic-bezier(0.35, 0, 0.25, 1) 0.6s forwards;
+}
+
+.preloader-animating .script-ampersand .script-text {
+  animation: revealAmpersand 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s forwards;
+}
+
+.preloader-animating .script-name-2 .script-text {
+  animation: writeName 1.8s cubic-bezier(0.35, 0, 0.25, 1) 2.9s forwards;
+}
+
+@keyframes writeName {
+  0% {
+    clip-path: inset(-60px 105% -60px -60px);
+    opacity: 1;
+  }
+
+  100% {
+    clip-path: inset(-60px -60px -60px -60px);
+    opacity: 1;
+  }
+}
+
+@keyframes revealAmpersand {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-12deg);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.18) rotate(3deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Glowing Pen Nib Spark */
+.calligraphy-pen-spark {
+  position: absolute;
+  top: 52%;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 8px 2px #FFF2A8, 0 0 18px 4px rgba(235, 205, 130, 0.98), 0 0 32px 8px rgba(212, 175, 55, 0.85);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.preloader-animating .script-name-1 .calligraphy-pen-spark {
+  animation: sparkMove 1.7s cubic-bezier(0.35, 0, 0.25, 1) 0.6s forwards;
+}
+
+.preloader-animating .script-name-2 .calligraphy-pen-spark {
+  animation: sparkMove 1.8s cubic-bezier(0.35, 0, 0.25, 1) 2.9s forwards;
+}
+
+@keyframes sparkMove {
+  0% {
+    left: 0%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+
+  4% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+
+  94% {
+    left: 100%;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  100% {
+    left: 100%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+}
+
+/* Calligraphy Flourish */
+.flourish-wrap {
+  width: clamp(230px, 65vw, 340px);
+  height: 28px;
+  margin-top: 0.15rem;
+}
+
+.calligraphy-flourish {
+  width: 100%;
+  height: 100%;
+}
+
+.flourish-path {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  filter: drop-shadow(0 0 8px rgba(235, 205, 130, 0.75));
+}
+
+.preloader-animating .flourish-path {
+  animation: drawFlourish 1.1s cubic-bezier(0.25, 1, 0.5, 1) 4.6s forwards;
+}
+
+@keyframes drawFlourish {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Gold Shimmer Sweep when done */
+.preloader-script-container.shimmer-active .script-text {
+  clip-path: none !important;
+  opacity: 1 !important;
+  animation: goldenShimmerSweep 2.4s ease-in-out infinite alternate !important;
+}
+
+@keyframes goldenShimmerSweep {
+  0% {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(235, 205, 130, 0.75), 0 0 38px rgba(212, 175, 55, 0.45);
+    color: #FFFDF8;
+  }
+
+  100% {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 32px rgba(255, 235, 170, 0.98), 0 0 55px rgba(245, 215, 110, 0.85);
+    color: #FFFFFF;
+  }
+}
+
+/* Date Subtext */
+.preloader-subtext {
+  margin-top: 0.85rem;
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.preloader-animating .preloader-subtext {
+  animation: fadeInSubtext 1.2s ease 4.9s forwards;
+}
+
+.preloader-date {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.28em;
+  color: #DFCA95;
+  text-shadow: 0 0 10px rgba(223, 202, 149, 0.55);
+}
+
+@keyframes fadeInSubtext {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tap to Open Gate Wrapper & Button */
+.preloader-gate-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: auto;
+}
+
+.wedding-preloader.preloader-animating .preloader-gate-wrapper {
+  opacity: 0;
+  transform: scale(0.92);
+  pointer-events: none;
+}
+
+.preloader-gate-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.preloader-gate-badge .preloader-tagline {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1rem, 4.2vw, 1.45rem);
+  letter-spacing: 0.44em;
+  margin-right: -0.44em;
+  color: #DFCA95;
+  text-transform: uppercase;
+  text-shadow: 0 0 16px rgba(223, 202, 149, 0.85), 0 2px 10px rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+}
+
+.preloader-gate-bottom {
+  position: absolute;
+  bottom: calc(clamp(36px, 8vh, 64px) + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+.preloader-open-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 11px 30px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 235, 170, 0.85);
+  border-radius: 9999px;
+  color: #FFFDF7;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 16px rgba(235, 205, 130, 0.45);
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.preloader-open-pill-btn:hover {
+  transform: scale(1.03);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 235, 170, 0.75);
+}
+
+.btn-sparkle {
+  font-size: 0.65rem;
+  color: #DFCA95;
+}
+
+/* First Section Cover Photo - Desktop Full Screen View */
+@media (min-width: 768px) {
+  .cover {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    aspect-ratio: auto !important;
+    margin: 0 auto !important;
+    -webkit-mask-image: linear-gradient(to bottom, #000 85%, transparent 100%) !important;
+    mask-image: linear-gradient(to bottom, #000 85%, transparent 100%) !important;
+  }
+
+  .cover img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: 50% 22% !important;
+  }
+
+  #intro .wrap {
+    margin-top: clamp(36px, 6vw, 72px) !important;
+  }
+}
+
+/* ==========================================================================
+   FIRST SECTION COVER IMAGE — 3D ROSE PETALS (Pushpavrishti)
+   Strictly confined to .cover container only
+   ========================================================================== */
+.cover {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+#rose-petals-canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 5 !important;
+  user-select: none;
+  -webkit-user-select: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.5s cubic-bezier(0.25, 1, 0.4, 1), visibility 1.5s ease;
+}
+
+body.preloader-active #rose-petals-canvas {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+body.petals-active #rose-petals-canvas {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #rose-petals-canvas {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   WEDDING COUNTDOWN TIMER
+   ========================================================================== */
+.countdown-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2.5vw, 18px);
+  margin-top: clamp(28px, 6vw, 42px);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(56px, 16vw, 84px);
+  padding: clamp(10px, 2.5vw, 16px) clamp(8px, 2vw, 16px);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--gold-soft);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(184, 152, 90, 0.12), 0 1px 3px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.countdown-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(184, 152, 90, 0.22);
+}
+
+.countdown-num {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 5.5vw, 2.6rem);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-label {
+  font-family: var(--sans);
+  font-size: clamp(0.65rem, 1.8vw, 0.76rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 5px;
+}
+
+.countdown-colon {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  color: var(--gold-soft);
+  margin-bottom: clamp(12px, 3vw, 18px);
+  font-weight: 300;
+}
