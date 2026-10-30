@@ -136,24 +136,43 @@ export function renderPreloader(customConfig = {}) {
 export function initPreloader(onDismissCallback) {
   const preloader = document.getElementById('wedding-preloader');
   if (!preloader) return;
-  // Lock scroll
+
+  let stage = 'waiting'; // 'waiting' | 'revealing' | 'dismissed'
+  let autoDismissTimer = null;
+
+  // Strict scroll lock on both html and body
+  document.documentElement.classList.add('preloader-active');
   document.body.classList.add('preloader-active');
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+  window.scrollTo(0, 0);
+
+  function preventScroll(e) {
+    if (stage !== 'dismissed') {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  }
+
+  window.addEventListener('wheel', preventScroll, { passive: false });
+  window.addEventListener('touchmove', preventScroll, { passive: false });
+
   // Pre-load font in background
   if (document.fonts?.load) {
     document.fonts.load('48px "Brittany Signature"').catch(() => { });
   }
-  let stage = 'waiting'; // 'waiting' | 'revealing' | 'dismissed'
-  let autoDismissTimer = null;
+
   function handleTapToOpen() {
-    if (stage !== 'waiting') {
-      if (stage === 'revealing') dismissPreloader();
-      return;
-    }
+    if (stage !== 'waiting') return;
     stage = 'revealing';
+
     // 1. Play music immediately on user gesture
     playMusic();
+
     // 2. Start handwriting animation
     preloader.classList.add('preloader-animating');
+
     // 3. Shimmer sweep after writing finishes (5.0s)
     setTimeout(() => {
       const scriptBox = document.getElementById('preloader-script-box');
@@ -166,42 +185,66 @@ export function initPreloader(onDismissCallback) {
         });
       }
     }, 5000);
-    // 4. Smooth reveal of the invitation page (6.0s - no awkward dead wait)
+
+    // 4. Smooth reveal of the invitation page (6.0s)
     autoDismissTimer = setTimeout(() => {
       dismissPreloader();
     }, 6000);
   }
+
   function dismissPreloader() {
     if (stage === 'dismissed') return;
     stage = 'dismissed';
     if (autoDismissTimer) clearTimeout(autoDismissTimer);
+
+    // Remove scroll locks
+    window.removeEventListener('wheel', preventScroll);
+    window.removeEventListener('touchmove', preventScroll);
+
     playMusic();
     preloader.classList.add('preloader-fade-out');
     preloader.style.pointerEvents = 'none';
+
+    document.documentElement.classList.remove('preloader-active');
     document.body.classList.remove('preloader-active');
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.body.style.touchAction = '';
     document.body.style.height = '';
+
     if (typeof onDismissCallback === 'function') {
       try { onDismissCallback(); } catch (err) { console.error(err); }
     }
+
     setTimeout(() => {
       preloader.style.display = 'none';
       preloader.setAttribute('aria-hidden', 'true');
     }, 1250);
   }
+
+  // ONLY the 'Tap to Open' button opens the invitation — clicking outside does not
   const enterBtn = document.getElementById('preloader-enter-btn');
   if (enterBtn) {
     enterBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
       handleTapToOpen();
     });
+
+    enterBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.stopPropagation();
+        handleTapToOpen();
+      }
+    });
   }
-  preloader.addEventListener('click', handleTapToOpen);
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
-      handleTapToOpen();
+
+  // Strictly disallow clicking anywhere outside the 'Tap to Open' button
+  preloader.addEventListener('click', (e) => {
+    if (enterBtn && e.target !== enterBtn && !enterBtn.contains(e.target)) {
+      e.preventDefault();
+      e.stopPropagation();
     }
   });
 }

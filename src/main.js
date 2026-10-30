@@ -2,6 +2,7 @@ import './style.css';
 import { renderPreloader, initPreloader } from './components/Preloader.js';
 import { initRosePetals } from './components/RosePetals.js';
 import { renderCountdown, initCountdown } from './components/Countdown.js';
+import { initScrollHint } from './components/ScrollHint.js';
 import { W, PHOTOS } from './data.js';
 
 const app = document.getElementById('app');
@@ -159,6 +160,10 @@ if (app) {
       setTimeout(() => {
         initRosePetals();
       }, 250);
+      // Once the invitation is fully open, show the small subtle scroll down indicator
+      setTimeout(() => {
+        initScrollHint();
+      }, 950);
     });
   });
 

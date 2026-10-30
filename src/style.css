@@ -10,10 +10,11 @@
   font-display: swap;
 }
 
+html.preloader-active,
 body.preloader-active {
   overflow: hidden !important;
-  height: 100vh !important;
-  touch-action: none;
+  height: 100% !important;
+  touch-action: none !important;
 }
 
 /* Smooth occlusion: pre-renders layout cleanly behind preloader */
@@ -38,7 +39,7 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   justify-content: center;
   overflow: hidden;
   background-color: #0E0A07;
-  cursor: pointer;
+  cursor: default;
   transition: opacity 1.2s cubic-bezier(0.25, 1, 0.4, 1);
   will-change: opacity;
   user-select: none;
@@ -642,4 +643,89 @@ body.petals-active #rose-petals-canvas {
   color: var(--gold-soft);
   margin-bottom: clamp(12px, 3vw, 18px);
   font-weight: 300;
+}
+
+/* ==========================================================================
+   LUXURY FLOATING SCROLL DOWN INDICATOR
+   ========================================================================== */
+.scroll-hint {
+  position: fixed;
+  bottom: clamp(20px, 4.5vh, 36px);
+  left: 50%;
+  transform: translate(-50%, 18px);
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px 10px 22px;
+  background: rgba(254, 252, 248, 0.92);
+  border: 1px solid rgba(184, 152, 90, 0.45);
+  border-radius: 9999px;
+  box-shadow: 0 10px 30px rgba(30, 20, 10, 0.12), 0 2px 8px rgba(184, 152, 90, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: clamp(0.72rem, 1.8vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scroll-hint.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+  animation: scrollHintFloat 2.6s ease-in-out infinite 0.6s;
+}
+
+.scroll-hint.hidden {
+  opacity: 0 !important;
+  transform: translate(-50%, 16px) scale(0.96) !important;
+  pointer-events: none !important;
+  transition: opacity 0.45s ease-out, transform 0.45s ease-out !important;
+}
+
+.scroll-hint-label {
+  color: var(--ink);
+  line-height: 1;
+}
+
+.scroll-hint-arrow {
+  width: 14px;
+  height: 14px;
+  color: var(--gold);
+  stroke-width: 2.4;
+  animation: scrollHintArrowBounce 1.8s ease-in-out infinite;
+  display: block;
+}
+
+.scroll-hint:hover {
+  background: #ffffff;
+  border-color: var(--gold);
+  box-shadow: 0 12px 34px rgba(184, 152, 90, 0.3);
+}
+
+@keyframes scrollHintFloat {
+  0%, 100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 7px);
+  }
+}
+
+@keyframes scrollHintArrowBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3.5px);
+  }
 }
