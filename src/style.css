@@ -30,9 +30,13 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 
 .wedding-preloader {
   position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
   z-index: 999999;
   display: flex;
   align-items: center;
@@ -44,6 +48,7 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   will-change: opacity;
   user-select: none;
   -webkit-user-select: none;
+  box-sizing: border-box;
 }
 
 .wedding-preloader.preloader-fade-out {
@@ -179,25 +184,31 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 
 /* Center Content */
 .preloader-content {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem;
   max-width: 620px;
-  width: 100%;
+  width: 92%;
+  box-sizing: border-box;
 }
 
 .wedding-preloader:not(.preloader-animating) .preloader-content {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 
 .wedding-preloader.preloader-animating .preloader-content {
   opacity: 1;
+  visibility: visible;
   transition: opacity 0.6s ease;
 }
 
@@ -439,11 +450,18 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 /* Tap to Open Gate Wrapper & Button */
 .preloader-gate-wrapper {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  padding: 1.5rem;
   z-index: 25;
   transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
   pointer-events: auto;
@@ -461,7 +479,8 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 1.5rem;
+  padding: 1rem;
+  max-width: 90vw;
 }
 
 .preloader-gate-badge .preloader-tagline {
@@ -476,40 +495,52 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 }
 
 .preloader-gate-bottom {
-  position: absolute;
-  bottom: calc(clamp(36px, 8vh, 64px) + env(safe-area-inset-bottom, 0px));
-  left: 0;
-  right: 0;
+  margin-top: clamp(28px, 5.5vh, 48px);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   z-index: 30;
+  pointer-events: auto;
 }
 
 .preloader-open-pill-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.6rem;
-  padding: 11px 30px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(255, 235, 170, 0.85);
+  min-height: 48px;
+  min-width: 170px;
+  padding: 12px 34px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(255, 235, 170, 0.9);
   border-radius: 9999px;
   color: #FFFDF7;
-  font-size: 0.78rem;
+  font-family: var(--sans);
+  font-size: clamp(0.8rem, 2.2vw, 0.92rem);
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 16px rgba(235, 205, 130, 0.45);
-  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45), 0 0 16px rgba(235, 205, 130, 0.45);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .preloader-open-pill-btn:hover {
   transform: scale(1.03);
-  background: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 235, 170, 0.75);
+  background: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 235, 170, 0.8);
+}
+
+.preloader-open-pill-btn:active {
+  transform: scale(0.97);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .btn-sparkle {
@@ -650,7 +681,7 @@ body.petals-active #rose-petals-canvas {
    ========================================================================== */
 .scroll-hint {
   position: fixed;
-  bottom: clamp(20px, 4.5vh, 36px);
+  bottom: calc(clamp(16px, 3.5dvh, 32px) + env(safe-area-inset-bottom, 16px));
   left: 50%;
   transform: translate(-50%, 18px);
   z-index: 900;

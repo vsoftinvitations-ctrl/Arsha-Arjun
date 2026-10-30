@@ -77,17 +77,17 @@ export function renderPreloader(customConfig = {}) {
         <span class="preloader-particle p5"></span>
         <span class="preloader-particle p6"></span>
       </div>
-      <!-- Initial Gate: Center Tagline + Bottom Tap to Open Pill Button -->
+      <!-- Initial Gate: Center Tagline + Tap to Open Button -->
       <div class="preloader-gate-wrapper" id="preloader-gate-wrapper">
         <div class="preloader-gate-center">
           <div class="preloader-gate-badge">
             <span class="preloader-tagline">WEDDING INVITATION</span>
           </div>
-        </div>
-        <div class="preloader-gate-bottom">
-          <button class="preloader-open-pill-btn" id="preloader-enter-btn" aria-label="Tap to Open Invitation">
-            <span>Tap to Open</span>
-          </button>
+          <div class="preloader-gate-bottom">
+            <button class="preloader-open-pill-btn" id="preloader-enter-btn" aria-label="Tap to Open Invitation">
+              <span>Tap to Open</span>
+            </button>
+          </div>
         </div>
       </div>
       <!-- Center Handwriting Script Animation -->
@@ -147,10 +147,17 @@ export function initPreloader(onDismissCallback) {
   document.body.style.overflow = 'hidden';
   window.scrollTo(0, 0);
 
+  const enterBtn = document.getElementById('preloader-enter-btn');
+
   function preventScroll(e) {
     if (stage !== 'dismissed') {
-      e.preventDefault();
-      e.stopPropagation();
+      // Never cancel touch/pointer interactions on the 'Tap to Open' button
+      if (enterBtn && (e.target === enterBtn || enterBtn.contains(e.target))) {
+        return;
+      }
+      if (e.cancelable) {
+        e.preventDefault();
+      }
       return false;
     }
   }
@@ -223,28 +230,44 @@ export function initPreloader(onDismissCallback) {
   }
 
   // ONLY the 'Tap to Open' button opens the invitation — clicking outside does not
-  const enterBtn = document.getElementById('preloader-enter-btn');
   if (enterBtn) {
-    enterBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+    let triggered = false;
+    function triggerOpen(e) {
+      if (triggered || stage !== 'waiting') return;
+      triggered = true;
+      if (e) {
+        if (e.cancelable) e.preventDefault();
+        e.stopPropagation();
+      }
       handleTapToOpen();
+    }
+
+    // Direct click
+    enterBtn.addEventListener('click', triggerOpen);
+
+    // Native mobile touch (instant response on iPhone & Android, even in Desktop Mode)
+    enterBtn.addEventListener('touchend', (e) => {
+      triggerOpen(e);
+    }, { passive: false });
+
+    // Modern pointerup event
+    enterBtn.addEventListener('pointerup', (e) => {
+      triggerOpen(e);
     });
 
+    // Keyboard support
     enterBtn.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        e.stopPropagation();
-        handleTapToOpen();
+        triggerOpen(e);
       }
     });
   }
 
   // Strictly disallow clicking anywhere outside the 'Tap to Open' button
   preloader.addEventListener('click', (e) => {
-    if (enterBtn && e.target !== enterBtn && !enterBtn.contains(e.target)) {
-      e.preventDefault();
-      e.stopPropagation();
+    if (enterBtn && (e.target === enterBtn || enterBtn.contains(e.target))) {
+      return;
     }
+    e.stopPropagation();
   });
 }
