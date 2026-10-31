@@ -430,7 +430,7 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 }
 
 .preloader-animating .preloader-subtext {
-  animation: fadeInSubtext 1.2s ease 4.9s forwards;
+  animation: fadeInSubtext 0.9s ease 4.7s forwards;
 }
 
 .preloader-date {

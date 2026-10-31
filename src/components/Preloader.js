@@ -193,10 +193,19 @@ export function initPreloader(onDismissCallback) {
       }
     }, 5000);
 
-    // 4. Smooth reveal of the invitation page (6.0s)
+    // 4. Smooth reveal of the invitation page after holding for a pause (7.8s)
     autoDismissTimer = setTimeout(() => {
       dismissPreloader();
-    }, 6000);
+    }, 7800);
+
+    // Optional: allow tapping screen during pause to open immediately
+    setTimeout(() => {
+      preloader.addEventListener('click', () => {
+        if (stage === 'revealing') {
+          dismissPreloader();
+        }
+      }, { once: true });
+    }, 5600);
   }
 
   function dismissPreloader() {
