@@ -763,18 +763,24 @@ body.petals-active #rose-petals-canvas {
 }
 
 @keyframes scrollHintFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translate(-50%, 0);
   }
+
   50% {
     transform: translate(-50%, 7px);
   }
 }
 
 @keyframes scrollHintArrowBounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(3.5px);
   }
