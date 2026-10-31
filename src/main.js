@@ -64,7 +64,7 @@ if (app) {
     </section>
 
     <section class="alt"><div class="wrap">
-      <p class="label r">The wedding day</p>
+      <p class="label r">The wedding</p>
       <div class="daynum r">${D.num}</div>
       <div class="month r">${D.month.toUpperCase()}</div>
       <div class="day r" style="margin-top:10px">${D.day}</div>
