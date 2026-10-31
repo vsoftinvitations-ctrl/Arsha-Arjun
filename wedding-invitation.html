@@ -869,13 +869,16 @@
     }
 
     #rose-petals-canvas {
-      position: absolute !important;
+      position: fixed !important;
       top: 0 !important;
       left: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
       pointer-events: none !important;
-      z-index: 5 !important;
+      z-index: 50 !important;
     }
 
     /* ===== Countdown Timer ===== */
@@ -1243,32 +1246,32 @@
         canvas = document.createElement('canvas');
         canvas.id = 'rose-petals-canvas';
         canvas.setAttribute('aria-hidden', 'true');
-        cover.appendChild(canvas);
-      } else if (canvas.parentElement !== cover) {
-        cover.appendChild(canvas);
+        document.body.appendChild(canvas);
+      } else if (canvas.parentElement !== document.body) {
+        document.body.appendChild(canvas);
       }
-      canvas.style.position = 'absolute';
+      canvas.style.position = 'fixed';
       canvas.style.top = '0';
       canvas.style.left = '0';
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
+      canvas.style.width = '100vw';
+      canvas.style.height = '100vh';
       canvas.style.pointerEvents = 'none';
-      canvas.style.zIndex = '5';
+      canvas.style.zIndex = '50';
       canvas.style.opacity = '0';
       canvas.style.transition = 'opacity 1.5s ease';
 
       requestAnimationFrame(() => { canvas.style.opacity = '1'; });
       const ctx = canvas.getContext('2d');
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      let width = cover.offsetWidth;
-      let height = cover.offsetHeight;
+      let width = window.innerWidth;
+      let height = window.innerHeight;
       function resize() {
-        width = cover.offsetWidth;
-        height = cover.offsetHeight;
+        width = window.innerWidth;
+        height = window.innerHeight;
         canvas.width = Math.round(width * dpr);
         canvas.height = Math.round(height * dpr);
-        canvas.style.width = width + 'px';
-        canvas.style.height = height + 'px';
+        canvas.style.width = '100vw';
+        canvas.style.height = '100vh';
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
       resize();

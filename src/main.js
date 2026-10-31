@@ -24,11 +24,11 @@ if (app) {
   // 1. Put the preloader at the top of your #app:
   app.innerHTML = `
     ${renderPreloader()}
+    <canvas id="rose-petals-canvas" aria-hidden="true"></canvas>
 
     <section id="intro">
       <div class="cover r">
         <img src="/assets/img2.webp" alt="Arjun and Arsha" decoding="async">
-        <canvas id="rose-petals-canvas" aria-hidden="true"></canvas>
       </div>
       <div class="wrap">
         <p class="label r">Together with their families</p>

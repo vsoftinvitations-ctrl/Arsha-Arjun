@@ -60,14 +60,11 @@ class PetalEngine {
     this.createPetals();
 
     window.addEventListener('resize', this.onResize, { passive: true });
-    if (window.ResizeObserver && this.container) {
-      this.resizeObserver = new ResizeObserver(() => this.onResize());
-      this.resizeObserver.observe(this.container);
-    }
+    window.addEventListener('orientationchange', this.onResize, { passive: true });
 
     document.addEventListener('visibilitychange', this.onVisibilityChange);
-    this.container.addEventListener('pointermove', this.onPointerMove, { passive: true });
-    this.container.addEventListener('touchmove', this.onPointerMove, { passive: true });
+    window.addEventListener('pointermove', this.onPointerMove, { passive: true });
+    window.addEventListener('touchmove', this.onPointerMove, { passive: true });
 
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
@@ -77,12 +74,12 @@ class PetalEngine {
   }
 
   updateDimensions() {
-    this.width = this.container ? (this.container.offsetWidth || window.innerWidth) : window.innerWidth;
-    this.height = this.container ? (this.container.offsetHeight || window.innerHeight) : window.innerHeight;
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
     this.canvas.width = Math.round(this.width * this.dpr);
     this.canvas.height = Math.round(this.height * this.dpr);
-    this.canvas.style.width = `${this.width}px`;
-    this.canvas.style.height = `${this.height}px`;
+    this.canvas.style.width = '100vw';
+    this.canvas.style.height = '100vh';
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
   }
 
@@ -103,9 +100,8 @@ class PetalEngine {
   }
 
   onPointerMove(e) {
-    const rect = this.container.getBoundingClientRect();
-    const clientX = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-    const clientY = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     if (this.mouse.lastX) {
       this.mouse.vx = (clientX - this.mouse.lastX) * 0.06;
       this.mouse.vy = (clientY - this.mouse.lastY) * 0.06;
@@ -117,8 +113,8 @@ class PetalEngine {
   }
 
   createPetals() {
-    // 22 petals inside the cover image for an exquisite, uncluttered shower
-    const count = this.width < 768 ? 16 : 22;
+    // Elegant shower of tiny 3D petals falling across all sections
+    const count = this.width < 768 ? 26 : 38;
     this.petals = [];
 
     for (let i = 0; i < count; i++) {
@@ -301,14 +297,10 @@ class PetalEngine {
   destroy() {
     this.stop();
     window.removeEventListener('resize', this.onResize);
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-    }
+    window.removeEventListener('orientationchange', this.onResize);
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
-    if (this.container) {
-      this.container.removeEventListener('pointermove', this.onPointerMove);
-      this.container.removeEventListener('touchmove', this.onPointerMove);
-    }
+    window.removeEventListener('pointermove', this.onPointerMove);
+    window.removeEventListener('touchmove', this.onPointerMove);
     if (this.canvas && this.canvas.parentNode) {
       this.canvas.parentNode.removeChild(this.canvas);
     }
@@ -318,30 +310,27 @@ class PetalEngine {
 let activeEngine = null;
 
 /**
- * Initializes the falling rose petals animation strictly inside the first cover image (.cover).
+ * Initializes the falling rose petals animation across all sections of the invitation.
  */
 export function initRosePetals() {
   if (typeof document === 'undefined') return null;
   if (activeEngine) return activeEngine;
-
-  const cover = document.querySelector('.cover');
-  if (!cover) return null;
 
   let canvas = document.getElementById('rose-petals-canvas');
   if (!canvas) {
     canvas = document.createElement('canvas');
     canvas.id = 'rose-petals-canvas';
     canvas.setAttribute('aria-hidden', 'true');
-    cover.appendChild(canvas);
-  } else if (canvas.parentElement !== cover) {
-    cover.appendChild(canvas);
+    document.body.appendChild(canvas);
+  } else if (canvas.parentElement && canvas.parentElement !== document.body && canvas.parentElement !== document.getElementById('app')) {
+    document.body.appendChild(canvas);
   }
 
   requestAnimationFrame(() => {
     document.body.classList.add('petals-active');
   });
 
-  activeEngine = new PetalEngine(canvas, cover);
+  activeEngine = new PetalEngine(canvas, null);
   activeEngine.init();
   return activeEngine;
 }
