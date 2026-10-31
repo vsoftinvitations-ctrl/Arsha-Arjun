@@ -272,9 +272,10 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 }
 
 .script-ampersand {
-  margin: -0.25em 0;
-  line-height: 0.75;
+  margin: 0.85em 0 0.35em 0;
+  line-height: 1;
 }
+
 
 .script-ampersand .script-text {
   font-size: clamp(2.2rem, 8vw, 3.6rem);
@@ -508,10 +509,10 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  min-height: 48px;
-  min-width: 170px;
-  padding: 12px 34px;
+  gap: 0.5rem;
+  min-height: 40px;
+  min-width: 120px;
+  padding: 8px 18px;
   background: rgba(255, 255, 255, 0.22);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -519,9 +520,9 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   border-radius: 9999px;
   color: #FFFDF7;
   font-family: var(--sans);
-  font-size: clamp(0.8rem, 2.2vw, 0.92rem);
+  font-size: clamp(0.75rem, 2vw, 0.84rem);
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
   box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45), 0 0 16px rgba(235, 205, 130, 0.45);
@@ -550,6 +551,14 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 
 /* First Section Cover Photo - Desktop Full Screen View */
 @media (min-width: 768px) {
+  .preloader-open-pill-btn {
+    min-height: 48px;
+    min-width: 168px;
+    padding: 12px 32px;
+    font-size: 0.92rem;
+    letter-spacing: 0.18em;
+  }
+
   .cover {
     width: 100% !important;
     max-width: 100% !important;
@@ -759,4 +768,61 @@ body.petals-active #rose-petals-canvas {
   50% {
     transform: translateY(3.5px);
   }
+}
+
+/* Intro script names ampersand spacing - clears lowercase 'j' descender in Arjun */
+.intro-names .script-amp {
+  margin: clamp(20px, 4.8vw, 32px) 0 clamp(10px, 2.5vw, 18px);
+  overflow: visible;
+}
+
+.intro-names .script-amp .amp {
+  margin: 0;
+  line-height: 1;
+}
+
+/* The Couple section styles */
+.couple-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8px 16px;
+}
+
+.couple-name {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5.5vw, 2.6rem);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.couple-rule {
+  width: 44px;
+  height: 1px;
+  background: var(--gold);
+  margin: 14px auto 16px;
+}
+
+.couple-sentence {
+  font-family: var(--serif);
+  font-size: clamp(1.22rem, 3.8vw, 1.5rem);
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0;
+  max-width: 32ch;
+}
+
+.couple-sentence .relation-tag {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  display: inline-block;
+  margin-right: 6px;
 }

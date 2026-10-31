@@ -31,8 +31,24 @@ export const W = {
           mother: "Shylaja O P"
         }
       },
+      couple: {
+        groom: {
+          name: "Arjun",
+          relation: "S/O",
+          father: "Yetheendran K",
+          mother: "Shylaja O P",
+          sentence: "S/O Yetheendran K & Shylaja O P"
+        },
+        bride: {
+          name: "Arsha",
+          relation: "D/O",
+          father: "Anilkumar R",
+          mother: "Jainy K S (Late)",
+          sentence: "D/O Anilkumar R & Jainy K S (Late)"
+        }
+      },
       tagline: "A celebration of love, family & togetherness",
-      quotes: ["Our love began as a story, and today we make a promise to turn it into forever.", "A beautiful marriage is not something you find, it is something you build together."],
+      quotes: ["Our love began as a story, and today we make a promise to turn it into forever.", "A beautiful marriage is not something you build, it is something you build together."],
       invite: "We cordially invite your gracious presence and blessings on the auspicious occasion of the wedding ceremony of Arjun & Arsha."
     };
 

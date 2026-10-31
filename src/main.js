@@ -7,19 +7,14 @@ import { W, PHOTOS } from './data.js';
 
 const app = document.getElementById('app');
 
-function fam(f) {
-  return `<div class="r">
-  <p class="label" style="font-weight:600;letter-spacing:.15em;margin-bottom:20px">${f.title}</p>
-  <div style="font-family:var(--serif);font-size:clamp(1.35rem,4vw,1.65rem);line-height:1.4;margin-bottom:14px">
-    <span style="font-size:.85rem;text-transform:uppercase;letter-spacing:.18em;color:var(--mute);display:block;margin-bottom:4px">Father</span>
-    <span style="font-weight:500;color:var(--ink)">${f.father}</span>
-  </div>
-  <div style="font-family:var(--serif);font-size:clamp(1.35rem,4vw,1.65rem);line-height:1.4">
-    <span style="font-size:.85rem;text-transform:uppercase;letter-spacing:.18em;color:var(--mute);display:block;margin-bottom:4px">Mother</span>
-    <span style="font-weight:500;color:var(--ink)">${f.mother}</span>
-  </div>
-</div>`;
+function coupleCard(person) {
+  return `<div class="r couple-card">
+    <h3 class="couple-name">${person.name}</h3>
+    <div class="couple-rule line-x"></div>
+    <p class="couple-sentence"><span class="relation-tag">${person.relation}</span> ${person.father} &amp; ${person.mother}</p>
+  </div>`;
 }
+
 
 if (app) {
   const orn = '<svg class="orn r" viewBox="0 0 150 18" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 9h55M95 9h55"/><circle cx="75" cy="9" r="4"/><circle cx="65" cy="9" r="2.5"/><circle cx="85" cy="9" r="2.5"/></svg>';
@@ -107,11 +102,11 @@ if (app) {
     </div></section>
 
     <section class="alt"><div class="wrap" style="max-width:900px">
-      <p class="label r">Parents' Details</p>
+      <p class="label r">The Couple</p>
       <div class="fam">
-        ${fam(W.parents.bride)}
+        ${coupleCard(W.couple.groom)}
         <div class="sep line-x"></div>
-        ${fam(W.parents.groom)}
+        ${coupleCard(W.couple.bride)}
       </div>
     </div></section>
 

@@ -776,6 +776,48 @@
       }
     }
 
+    .couple-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px 16px;
+    }
+    .couple-name {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5.5vw, 2.6rem);
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: 0.04em;
+      margin: 0;
+    }
+    .couple-rule {
+      width: 44px;
+      height: 1px;
+      background: var(--gold);
+      margin: 14px auto 16px;
+    }
+    .couple-sentence {
+      font-family: var(--serif);
+      font-size: clamp(1.22rem, 3.8vw, 1.5rem);
+      line-height: 1.6;
+      color: var(--ink);
+      margin: 0;
+      max-width: 32ch;
+    }
+    .couple-sentence .relation-tag {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+
     .comp {
       display: flex;
       justify-content: center;
@@ -942,6 +984,20 @@
           mother: "Shylaja O P"
         }
       },
+      couple: {
+        groom: {
+          name: "Arjun",
+          relation: "S/O",
+          father: "Yetheendran K",
+          mother: "Shylaja O P"
+        },
+        bride: {
+          name: "Arsha",
+          relation: "D/O",
+          father: "Anilkumar R",
+          mother: "Jainy K S (Late)"
+        }
+      },
       tagline: "A celebration of love, family & togetherness",
       quotes: ["Our love began as a story, and today we make a promise to turn it into forever.", "A beautiful marriage is not something you find, it is something you build together."],
       invite: "We cordially invite your gracious presence and blessings on the auspicious occasion of the wedding ceremony of Arjun & Arsha."
@@ -1061,11 +1117,11 @@
 </div></section>
 
 <section class="alt"><div class="wrap" style="max-width:900px">
-  <p class="label r">Parents' Details</p>
+  <p class="label r">The Couple</p>
   <div class="fam">
-    ${fam(W.parents.bride)}
+    ${coupleCard(W.couple.groom)}
     <div class="sep line-x"></div>
-    ${fam(W.parents.groom)}
+    ${coupleCard(W.couple.bride)}
   </div>
 </div></section>
 
@@ -1091,17 +1147,11 @@
   ${orn}
 </div></section>`;
 
-    function fam(f) {
-      return `<div class="r">
-  <p class="label" style="font-weight:600;letter-spacing:.15em;margin-bottom:20px">${f.title}</p>
-  <div style="font-family:var(--serif);font-size:clamp(1.35rem,4vw,1.65rem);line-height:1.4;margin-bottom:14px">
-    <span style="font-size:.85rem;text-transform:uppercase;letter-spacing:.18em;color:var(--mute);display:block;margin-bottom:4px">Father</span>
-    <span style="font-weight:500;color:var(--ink)">${f.father}</span>
-  </div>
-  <div style="font-family:var(--serif);font-size:clamp(1.35rem,4vw,1.65rem);line-height:1.4">
-    <span style="font-size:.85rem;text-transform:uppercase;letter-spacing:.18em;color:var(--mute);display:block;margin-bottom:4px">Mother</span>
-    <span style="font-weight:500;color:var(--ink)">${f.mother}</span>
-  </div>
+    function coupleCard(person) {
+      return `<div class="r couple-card">
+  <h3 class="couple-name">${person.name}</h3>
+  <div class="couple-rule line-x"></div>
+  <p class="couple-sentence"><span class="relation-tag">${person.relation}</span> ${person.father} &amp; ${person.mother}</p>
 </div>`;
     }
     document.getElementById('fmono').textContent = W.footMono;
