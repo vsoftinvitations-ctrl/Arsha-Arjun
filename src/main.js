@@ -77,7 +77,8 @@ if (app) {
       <p class="label r">Wedding Ceremony</p>
       <div class="r">${pin}</div>
       <h2 class="big r">${W.ceremony.venue}</h2>
-      <div class="time r" style="margin-top:14px;font-size:clamp(1.2rem,4vw,1.5rem);color:var(--gold)">Muhurtham: ${W.ceremony.muhurtham}</div>
+      <div class="event-date-badge r">Sunday &bull; 22 November 2026</div>
+      <div class="time r" style="margin-top:12px;font-size:clamp(1.2rem,4vw,1.5rem);color:var(--gold)">Muhurtham: ${W.ceremony.muhurtham}</div>
       <p class="small r" style="margin-top:10px;font-size:1.05rem;line-height:1.7;color:var(--mute)">${W.ceremony.address}</p>
       <div style="margin-top:28px" class="r">
         <a class="btn" href="${W.ceremony.map}" target="_blank" rel="noopener noreferrer">View Location on Google Maps</a>
@@ -88,7 +89,8 @@ if (app) {
       <p class="label r">Reception Details</p>
       <div class="r">${pin}</div>
       <h2 class="big r">${W.reception.venue}</h2>
-      <div class="time r" style="margin-top:14px;font-size:clamp(1.2rem,4vw,1.5rem);color:var(--gold)">Reception Time: ${W.reception.time}</div>
+      <div class="event-date-badge r">Sunday &bull; 22 November 2026</div>
+      <div class="time r" style="margin-top:12px;font-size:clamp(1.2rem,4vw,1.5rem);color:var(--gold)">Reception Time: ${W.reception.time}</div>
       <p class="small r" style="margin-top:10px;font-size:1.05rem;line-height:1.7;color:var(--mute)">${W.reception.address.join('<br>')}</p>
       <div style="margin-top:28px" class="r">
         <a class="btn" href="${W.reception.map}" target="_blank" rel="noopener noreferrer">View Location on Google Maps</a>
@@ -96,12 +98,24 @@ if (app) {
     </div></section>
 
     <section><div class="wrap">
+      <p class="label r">Groom Side Reception Details</p>
+      <div class="r">${pin}</div>
+      <h2 class="big r">${W.groomReception.venue}</h2>
+      <div class="event-date-badge r">${W.groomReception.day} &bull; ${W.groomReception.date}</div>
+      <div class="time r" style="margin-top:12px;font-size:clamp(1.2rem,4vw,1.5rem);color:var(--gold)">Reception Time: ${W.groomReception.time}</div>
+      <p class="small r" style="margin-top:10px;font-size:1.05rem;line-height:1.7;color:var(--mute)">${W.groomReception.address.join('<br>')}</p>
+      <div style="margin-top:28px" class="r">
+        <a class="btn" href="${W.groomReception.map}" target="_blank" rel="noopener noreferrer">View Location on Google Maps</a>
+      </div>
+    </div></section>
+
+    <section class="alt"><div class="wrap">
       ${orn}
       <p class="body r">${W.invite}</p>
       ${orn}
     </div></section>
 
-    <section class="alt"><div class="wrap" style="max-width:900px">
+    <section><div class="wrap" style="max-width:900px">
       <p class="label r">The Couple</p>
       <div class="fam">
         ${coupleCard(W.couple.groom)}

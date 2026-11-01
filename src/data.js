@@ -19,6 +19,17 @@ export const W = {
         ],
         map: "https://share.google/89qt5kDbmUhvB5mPj"
       },
+      groomReception: {
+        venue: "Groom's Residence – 'Swaramanjari'",
+        date: "25 November 2026",
+        day: "Wednesday",
+        time: "4:00 PM to 9:00 PM",
+        address: [
+          "Near Karayi Mukku,",
+          "P.O. Eranholi, Thalassery."
+        ],
+        map: "https://www.google.com/maps/place/11%C2%B046'24.3%22N+75%C2%B030'59.6%22E/@11.77342,75.5139731,17z/data=!3m1!4b1!4m4!3m3!8m2!3d11.77342!4d75.516548?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D"
+      },
       parents: {
         bride: {
           title: "Bride's Parents",
